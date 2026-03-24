@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from toolkit.network import get_open_ports
+from toolkit.network import parse_open_ports
 from toolkit.processes import get_top_processes
 from toolkit.system_info import get_system_info
 
@@ -12,7 +12,7 @@ def build_report(process_limit: int = 5) -> dict:
         "timestamp": datetime.now().isoformat(),
         "system_info": get_system_info(),
         "top_processes": get_top_processes(process_limit),
-        "open_ports": get_open_ports(),
+        "open_ports": parse_open_ports(),
     }
 
 

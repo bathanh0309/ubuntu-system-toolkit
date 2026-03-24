@@ -49,7 +49,9 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command")
 
     subparsers.add_parser("status", help="Show CPU, memory, disk, uptime, and top processes")
-    subparsers.add_parser("ports", help="Show open ports")
+    ports_parser = subparsers.add_parser("ports", help="Show open ports")
+    ports_parser.add_argument("--limit", type=int, default=None, help="Maximum number of rows to show")
+    ports_parser.add_argument("--raw", action="store_true", help="Show raw ss output")
     subparsers.add_parser("report", help="Export a JSON system report")
 
     ping_parser = subparsers.add_parser("ping", help="Ping a host")
@@ -78,7 +80,7 @@ def main() -> None:
     if args.command == "status":
         show_status()
     elif args.command == "ports":
-        print_open_ports()
+        print_open_ports(limit=args.limit, raw=args.raw)
     elif args.command == "ping":
         print_ping(args.host, args.count)
     elif args.command == "report":
